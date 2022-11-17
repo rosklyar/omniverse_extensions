@@ -84,7 +84,7 @@ class MyExtension(omni.ext.IExt):
 
             with open(request_path + "/request.json") as jsonFile:
                 state = json.load(jsonFile)
-            state["status"] = "inferred"
+            state["status"] = "ready_to_sequence" if state["status"] == "headpose_inferred" else "lipsync_inferred"
             print("State:" + str(state))
             with open(request_path + "/request.json", 'w') as jsonFile:
                 json.dump(state, jsonFile)
@@ -116,7 +116,7 @@ def get_actual_requests(scan_folder):
             request_file = os.path.join(os.path.join(scan_folder, request), "request.json")
             with open(request_file) as json_file:
                 status = json.load(json_file)['status']
-                if not status or status == "created":
+                if not status or status == "created" or status == "headpose_inferred":
                     requests.append(request)
     return requests
 
