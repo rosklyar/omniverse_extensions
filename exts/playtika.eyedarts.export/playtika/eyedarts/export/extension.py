@@ -84,12 +84,10 @@ class MyExtension(omni.ext.IExt):
 
             with open(request_path + "/request.json") as jsonFile:
                 state = json.load(jsonFile)
-            state["status"] = "ready_to_sequence" if state["status"] == "headpose_inferred" else "lipsync_inferred"
-            print("State:" + str(state))
+            state["status"] = "READY_TO_RENDER" if state["status"] == "HEADPOSE_INFERRED" else "LIPSYNC_INFERRED"
             with open(request_path + "/request.json", 'w') as jsonFile:
                 json.dump(state, jsonFile)
 
-            print("Processed: " + str(request))
             return result_eyedarts
 
         print("[playtika.eyedarts.export] ExportEyeDarts Techathon startup")
@@ -116,7 +114,7 @@ def get_actual_requests(scan_folder):
             request_file = os.path.join(os.path.join(scan_folder, request), "request.json")
             with open(request_file) as json_file:
                 status = json.load(json_file)['status']
-                if not status or status == "created" or status == "headpose_inferred":
+                if not status or status == "OVERDUBBED" or status == "HEADPOSE_INFERRED":
                     requests.append(request)
     return requests
 
