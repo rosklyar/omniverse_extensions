@@ -114,7 +114,7 @@ def get_actual_requests(scan_folder):
             request_file = os.path.join(os.path.join(scan_folder, request), "request.json")
             with open(request_file) as json_file:
                 status = json.load(json_file)['status']
-                if not status or status == "OVERDUBBED" or status == "HEADPOSE_INFERRED":
+                if status == "OVERDUBBED" or status == "HEADPOSE_INFERRED":
                     requests.append(request)
     return requests
 
